@@ -2,8 +2,10 @@ const express = require('express')
 const dotenv = require('dotenv')
 const cookieParser = require('cookie-parser')
 
+
 //internal imports
-const {notFound, errorHandler} = require('./middlewares/errorHandler')
+const {notFound, errorHandler} = require('./middlewares/common/errorHandler')
+const loginRouter = require('./routers/loginRouter')
 
 dotenv.config()
 
@@ -21,11 +23,10 @@ app.use(cookieParser(process.env.SECRET))
 app.set('view engine', 'ejs') // Setting EJS as template engine
 app.set('views', __dirname + '/views') // Setting the directory for the view files
 
-
-// app.use('/', (req, res)=>{
-//     res.send("home")
-// })
-
+//routes
+app.use('/', loginRouter)
+// app.use('/user', userRouter)
+// app.use('/inbox', inboxRouter)
 
 //error Handlers
 app.use(notFound)

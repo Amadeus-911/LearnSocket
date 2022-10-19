@@ -7,8 +7,8 @@ const notFound = (req, res, next) => {
 
 const errorHandler = (err, req, res, next) => {
 
-    if(res.locals.html){
-        res.render('error', {
+    if(!res.locals.html){
+        res.render('./errors/error', {
             title:  "Error Page",
             error: err,
             status : err.status
