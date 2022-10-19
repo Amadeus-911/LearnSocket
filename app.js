@@ -6,6 +6,8 @@ const cookieParser = require('cookie-parser')
 //internal imports
 const {notFound, errorHandler} = require('./middlewares/common/errorHandler')
 const loginRouter = require('./routers/loginRouter')
+const userRouter = require('./routers/usersRouter')
+const inboxRouter = require('./routers/inboxRouter')
 
 dotenv.config()
 
@@ -25,8 +27,8 @@ app.set('views', __dirname + '/views') // Setting the directory for the view fil
 
 //routes
 app.use('/', loginRouter)
-// app.use('/user', userRouter)
-// app.use('/inbox', inboxRouter)
+app.use('/users', userRouter)
+app.use('/inbox', inboxRouter)
 
 //error Handlers
 app.use(notFound)
