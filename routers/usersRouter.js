@@ -5,13 +5,12 @@ const {check} = require('express-validator')
 const {decorateHtmlresponse} = require('../middlewares/common/decorateHtmlResponse')
 const {getUsers} = require('../controllers/usersController')
 const avatarUoload = require('../middlewares/users/avatarUpload')
+const {addUserValidators} = require('../middlewares/users/userValidator')
+const  {addUserValidationHandler} = require('../middlewares/users/userValidator')
 
 router.get('/', decorateHtmlresponse('Users'),getUsers)
 
-router.post('/', avatarUoload, [
-        check('name').isLength({min: 1}).withMessage('Name is required'),
-        check('email').isEmail().withMessage('Email is required'),
-    ]);
+router.post('/', avatarUoload, addUserValidators, addUserValidationHandler)
 
 
 module.exports = router
