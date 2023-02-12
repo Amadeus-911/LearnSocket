@@ -28,11 +28,18 @@
           <input type="submit" value="Submit" />
 
         </form>
-      </div>
+      </div>    
     </div>
   </div>
   <script>
     const modal = document.querySelector("#add-user-modal");
+    const form = document.querySelector("#add-user-form");
+
+    const successToast = Toastify({
+        text:"User was added successfully",
+        duration : 1000 
+    })
+
     function closeModal() {
       modal.style.display = "none";
     }
@@ -42,17 +49,20 @@
 
     form.onsubmit = async (e) =>{
         e.preventDefault()
-
-        const errorPlaceholders = document.querySelectoAll("p.error")
+        console.log("jkjk")
+        const errorPlaceholders = document.querySelectorAll("p.error")
         for( let i = 0 ; i < errorPlaceholders.length ; i++){
             errorPlaceholders[i].style.display = "none";
         }
 
 
-        const inputErrors = document.querySelectoAll("input.error")
-        for( let i = 0 ; i < inputErrors.length ; i++){
-            inputErrors[i].style.display = "none";
+        const inputErrors = document.querySelectorAll("input.error")
+        if(inputErrors.length > 0){
+            for( let i = 0 ; i < inputErrors.length ; i++){
+                inputErrors[i].classList.remove("error");
+            }
         }
+        
 
         const formData = new FormData(form)
 
