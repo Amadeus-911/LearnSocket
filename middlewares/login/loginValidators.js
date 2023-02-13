@@ -27,5 +27,6 @@ const doLoginValidationHandler = (req,res,next)=>{
 }
 
 module.exports = {
-    doLoginValidators
+    doLoginValidators,
+    doLoginValidationHandler
 }

@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 const createError = require('http-errors')
 const jwt = require('jsonwebtoken')
 
-const {User} = require('../models/People')
+const User = require('../models/People')
 
 
 const getLogin = (req, res) => {
@@ -28,7 +28,7 @@ const login = async (req,res,next) => {
                 }
 
                 const token = jwt.sign(userObject, process.env.JWT_SECRET,{
-                    esxpiresIn: process.env.JWT_EXPIRY
+                    expiresIn: process.env.JWT_EXPIRY
                 })
 
                 res.cookie(process.env.COOKIE_NAME, token, {

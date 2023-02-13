@@ -2,11 +2,11 @@ const express = require('express')
 const router = express.Router()
 
 const {decorateHtmlresponse} = require('../middlewares/common/decorateHtmlResponse')
-const {doLoginValidator, doLoginValidatorHandler} = require('../middlewares/login/loginValidators')
-const {getLogin} = require('../controllers/loginController')
+const { doLoginValidators, doLoginValidationHandler} = require('../middlewares/login/loginValidators')
+const {getLogin, login} = require('../controllers/loginController')
 
 router.get('/', decorateHtmlresponse('Login') ,getLogin)
 
-router.post('/', doLoginValidator, doLoginValidatorHandler, decorateHtmlresponse('login'), login)
+router.post('/', doLoginValidators, doLoginValidationHandler, decorateHtmlresponse('login'), login)
 
 module.exports = router
