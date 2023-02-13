@@ -7,4 +7,6 @@ const {getLogin} = require('../controllers/loginController')
 
 router.get('/', decorateHtmlresponse('Login') ,getLogin)
 
+router.post('/', login)
+
 module.exports = router
