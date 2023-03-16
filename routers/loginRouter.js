@@ -5,7 +5,9 @@ const {decorateHtmlresponse} = require('../middlewares/common/decorateHtmlRespon
 const { doLoginValidators, doLoginValidationHandler} = require('../middlewares/login/loginValidators')
 const {getLogin, login, logout} = require('../controllers/loginController')
 
-router.get('/', decorateHtmlresponse('Login') ,getLogin)
+const {redirectLoggedIn} = require('../middlewares/common/checkLogin')
+
+router.get('/', decorateHtmlresponse('Login'), redirectLoggedIn, getLogin)
 
 router.post('/', doLoginValidators, doLoginValidationHandler, decorateHtmlresponse('login'), login)
 

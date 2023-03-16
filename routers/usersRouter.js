@@ -8,10 +8,11 @@ const { getUsers,addUser,removeUser} = require("../controllers/usersController")
 const avatarUoload = require('../middlewares/users/avatarUpload')
 const {addUserValidators} = require('../middlewares/users/userValidator')
 const  {addUserValidationHandler} = require('../middlewares/users/userValidator')
+const {checkLogin} = require('../middlewares/common/checkLogin')
 
-router.get('/', decorateHtmlresponse('Users'),getUsers)
+router.get('/', decorateHtmlresponse('Users'), checkLogin, getUsers)
 
-router.post('/', avatarUoload, addUserValidators, addUserValidationHandler, addUser)
+router.post('/', checkLogin, avatarUoload, addUserValidators, addUserValidationHandler, addUser)
 
 router.delete("/:id", removeUser)
 

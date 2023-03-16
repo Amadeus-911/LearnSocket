@@ -4,6 +4,8 @@ const router = express.Router()
 const {decorateHtmlresponse} = require('../middlewares/common/decorateHtmlResponse')
 const {getInbox} = require('../controllers/inboxController')
 
-router.get('/', decorateHtmlresponse('Inbox'),getInbox)
+const {checkLogin} = require('../middlewares/common/checkLogin')
+
+router.get('/', decorateHtmlresponse('Inbox'), checkLogin, getInbox)
 
 module.exports = router
