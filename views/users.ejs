@@ -1,5 +1,4 @@
-<%- include('./partials/header') %>
-
+<%- include('./partials/header.ejs'); %>
     <div class="manageUser-container">
       <div id="title">
         <h2>Manage Users</h2>
@@ -19,7 +18,7 @@
             </tr>
           </thead>
           <tbody id="users-table">
-            <% users.forEach((user) => { %>
+            <% users.forEach(function(user) { %>
               <tr id="<%= user._id %>">
                 <td class="name">
                   <% if (user.avatar) { %>
@@ -35,37 +34,35 @@
                 </td>
               </tr>
             <% }); %>
-
           </tbody>
         </table>
       </div>
     </div>
-    <%-include('./partials/add-user-modal.ejs') %>
+    <%- include('./partials/add-user-modal.ejs'); %>
 
     <script>
-      // toasts
-      const deleteToast = Toastify({
-          text: "User was deleted successfully!",
-          duration: 3000,
-      });
-      const deleteErrorToast = Toastify({
-          text: "Could not delete the user!",
-          duration: 3000,
-      });
-      
-      // delete user function
-      async function deleteUser(userId) {
-          let response = await fetch(`/users/${userId}`, {
-              method: "DELETE",
-          });
-          let result = await response.json();
-          if (result.errors) {
-              deleteErrorToast.showToast();
-          } else {
-              deleteToast.showToast();
-              document.getElementById(userId).remove();
-          }
-      }
-  </script>
+        const deleteToast = Toastify({
+            text: "User was deleted successfully!",
+            duration: 3000,
+        });
+        const deleteErrorToast = Toastify({
+            text: "Could not delete the user!",
+            duration: 3000,
+        });
+        
+
+        async function deleteUser(userId) {
+            let response = await fetch(`/users/${userId}`, {
+                method: "DELETE",
+            });
+            let result = await response.json();
+            if (result.errors) {
+                deleteErrorToast.showToast();
+            } else {
+                deleteToast.showToast();
+                document.getElementById(userId).remove();
+            }
+        }
+    </script>
   </body>
 </html>

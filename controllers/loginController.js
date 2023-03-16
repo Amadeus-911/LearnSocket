@@ -58,4 +58,9 @@ const login = async (req,res,next) => {
 }
 
 
-module.exports = {getLogin, login}
+const logout = (req, res) =>{
+    res.clearCookie(process.env.COOKIE_NAME)
+    res.send("Logged out")
+}
+
+module.exports = {getLogin, login, logout}
