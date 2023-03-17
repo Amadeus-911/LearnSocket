@@ -7,15 +7,15 @@ const {
   addConversation,
   getMessages,
   sendMessage,
-} = require("../controller/inboxController");
-const decorateHtmlResponse = require("../middlewares/common/decorateHtmlResponse");
+} = require('../controllers/inboxController');
+const {decorateHtmlresponse} = require('../middlewares/common/decorateHtmlResponse')
 const { checkLogin } = require("../middlewares/common/checkLogin");
 const attachmentUpload = require("../middlewares/inbox/attachmentUpload");
 
 const router = express.Router();
 
 // inbox page
-router.get("/", decorateHtmlResponse("Inbox"), checkLogin, getInbox);
+router.get("/", decorateHtmlresponse("Inbox"), checkLogin, getInbox);
 
 // search user for conversation
 router.post("/search", checkLogin, searchUser);

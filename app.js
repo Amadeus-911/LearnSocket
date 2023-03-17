@@ -1,43 +1,66 @@
-const express = require('express')
-const dotenv = require('dotenv')
-const cookieParser = require('cookie-parser')
+const express = require("express");
+const http = require("http");
+const dotenv = require("dotenv");
+const mongoose = require("mongoose");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const moment = require("moment");
 
+// internal imports
+const loginRouter = require("./routers/loginRouter");
+const usersRouter = require("./routers/usersRouter");
+const inboxRouter = require("./routers/inboxRouter");
 
-//internal imports
-const {notFound, errorHandler} = require('./middlewares/common/errorHandler')
-const loginRouter = require('./routers/loginRouter')
-const userRouter = require('./routers/usersRouter')
-const inboxRouter = require('./routers/inboxRouter')
+// internal imports
+const {
+  notFound,
+  errorHandler,
+} = require("./middlewares/common/errorHandler");
 
-dotenv.config()
+const app = express();
+const server = http.createServer(app);
+dotenv.config();
 
-const conn = require('./serverDB')
-conn()
+// socket creation
+const io = require("socket.io")(server);
+global.io = io;
 
+// set comment as app locals
+app.locals.moment = moment;
 
+// database connection
+mongoose
+  .connect(process.env.MONGOURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.log(err));
 
-const app = express()
+// request parsers
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use(express.json())
-app.use(express.urlencoded({extended:true}))
-app.use(express.static('public'))
-app.use(cookieParser(process.env.SECRET))
-app.set('view engine', 'ejs') // Setting EJS as template engine
-app.set('views', __dirname + '/views') // Setting the directory for the view files
+// set view engine
+app.set("view engine", "ejs");
 
-//routes
-app.use('/', loginRouter)
-app.use('/users', userRouter)
-app.use('/inbox', inboxRouter)
+// set static folder
+app.use(express.static(path.join(__dirname, "public")));
 
-//error Handlers
-app.use(notFound)
-app.use(errorHandler)
+// parse cookies
+app.use(cookieParser(process.env.SECRET));
 
+// routing setup
+app.use("/", loginRouter);
+app.use("/users", usersRouter);
+app.use("/inbox", inboxRouter);
 
-app.listen(process.env.PORT, ()=>{
-    console.log(`Server running on Port ${process.env.PORT}`)
-})
+// 404 not found handler
+app.use(notFound);
 
+// common error handler
+app.use(errorHandler);
 
-
+server.listen(process.env.PORT, () => {
+  console.log(`server running on port ${process.env.PORT}`);
+});

@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const {decorateHtmlresponse} = require('../middlewares/common/decorateHtmlResponse')
+console.log(decorateHtmlresponse)
 const { doLoginValidators, doLoginValidationHandler} = require('../middlewares/login/loginValidators')
 const {getLogin, login, logout} = require('../controllers/loginController')
 
